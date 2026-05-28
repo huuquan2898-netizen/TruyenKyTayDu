@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     public InputAction MoveAction;
     public InputAction JumpAction;
+    public InputAction AttackAction;
 
     public float moveSpeed = 5f;
     public float jumpForce = 10f;
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     private bool isGrounded = true;
+    private bool isAttacking = false;
 
     void Start()
     {
@@ -21,29 +23,23 @@ public class PlayerController : MonoBehaviour
 
         MoveAction.Enable();
         JumpAction.Enable();
+        AttackAction.Enable();
     }
 
     void Update()
     {
-        Move();
-        Jump();
+        HandleAttack();
 
-        // Animation
-        animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
-
-        // Nếu đang rơi hoặc bay lên
-        if (Mathf.Abs(rb.linearVelocity.y) > 0.1f)
+        if (!isAttacking)
         {
-            isGrounded = false;
-        }
-        else
-        {
-            isGrounded = true;
+            Move();
+            Jump();
         }
 
-        animator.SetBool("isGrounded", isGrounded);
+        UpdateAnimation();
     }
 
+    // ================= MOVE =================
     void Move()
     {
         Vector2 move = MoveAction.ReadValue<Vector2>();
@@ -53,27 +49,55 @@ public class PlayerController : MonoBehaviour
             rb.linearVelocity.y
         );
 
-        // Flip nhân vật
+        // Flip
         if (move.x > 0)
-        {
             transform.localScale = new Vector3(1, 1, 1);
-        }
         else if (move.x < 0)
-        {
             transform.localScale = new Vector3(-1, 1, 1);
-        }
     }
 
+    // ================= JUMP =================
     void Jump()
     {
         if (JumpAction.triggered && isGrounded)
         {
-            rb.linearVelocity = new Vector2(
-                rb.linearVelocity.x,
-                jumpForce
-            );
-
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
             isGrounded = false;
+        }
+    }
+
+    // ================= ATTACK =================
+    void HandleAttack()
+    {
+        if (AttackAction.triggered && !isAttacking)
+        {
+            isAttacking = true;
+
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y);
+
+            animator.SetTrigger("Attack");
+        }
+    }
+
+    // ================= ANIMATION RESET =================
+    public void EndAttack()
+    {
+        isAttacking = false;
+    }
+
+    // ================= ANIMATION =================
+    void UpdateAnimation()
+    {
+        animator.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x));
+        animator.SetBool("isGrounded", isGrounded);
+    }
+
+    // ================= GROUND CHECK =================
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
         }
     }
 }

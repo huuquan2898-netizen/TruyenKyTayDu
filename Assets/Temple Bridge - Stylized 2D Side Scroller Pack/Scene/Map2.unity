@@ -1603,9 +1603,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 710059288550783892, guid: a205a8afcd006e34b84e05c014c2358a, type: 3}
+      propertyPath: AttackAction.m_Name
+      value: Attack
+      objectReference: {fileID: 0}
     - target: {fileID: 1195963740267911930, guid: a205a8afcd006e34b84e05c014c2358a, type: 3}
       propertyPath: m_Name
       value: wukong
+      objectReference: {fileID: 0}
+    - target: {fileID: 7928152121042603561, guid: a205a8afcd006e34b84e05c014c2358a, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2352,7 +2360,7 @@ GameObject:
   - component: {fileID: 1106176667}
   m_Layer: 0
   m_Name: platform__grassy trail with stone base (2)
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3543,7 +3551,7 @@ GameObject:
   - component: {fileID: 1616804495}
   m_Layer: 0
   m_Name: platform_ornate bridge
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3557,7 +3565,7 @@ Transform:
   m_GameObject: {fileID: 1616804492}
   serializedVersion: 2
   m_LocalRotation: {x: 0.1133598, y: -0.004216782, z: -0.036932547, w: 0.9928584}
-  m_LocalPosition: {x: 0.91155005, y: -0.16750002, z: 0}
+  m_LocalPosition: {x: 0.89, y: -0.39, z: -0.05}
   m_LocalScale: {x: 0.6492545, y: 0.6141, z: 0.6141}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3610,7 +3618,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -4
+  m_SortingOrder: 2
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 5f5cf0b91ff9c7d43938f7341d2f2f97, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4179,7 +4187,7 @@ GameObject:
   - component: {fileID: 2026877272}
   m_Layer: 0
   m_Name: platform_long grassy trail
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4499,7 +4507,7 @@ GameObject:
   - component: {fileID: 2120208634}
   m_Layer: 0
   m_Name: platform__grassy trail with stone base
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
