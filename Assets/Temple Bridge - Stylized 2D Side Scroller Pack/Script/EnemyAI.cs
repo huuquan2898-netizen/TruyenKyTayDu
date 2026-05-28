@@ -34,7 +34,7 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            // đứng yên
+            // luôn đảm bảo đứng yên khi không move
             anim.SetBool("isMoving", false);
         }
     }
@@ -47,6 +47,7 @@ public class EnemyAI : MonoBehaviour
         transform.Translate(Vector2.right * dir * moveSpeed * Time.deltaTime);
 
         anim.SetBool("isMoving", true);
+        anim.SetBool("isIdle", false);
     }
 
     // ================= MAIN FLOW =================
@@ -54,27 +55,32 @@ public class EnemyAI : MonoBehaviour
     {
         while (true)
         {
-            // ===== WALK =====
+            // ================= 1. WALK 2s =================
             isMoving = true;
+            anim.SetBool("isIdle", false);
 
             yield return new WaitForSeconds(moveTime);
 
-            // ===== IDLE =====
+            // STOP → IDLE
             isMoving = false;
 
             anim.SetBool("isMoving", false);
+            anim.SetBool("isIdle", true);
 
+            // ================= 2. IDLE 2s =================
             yield return new WaitForSeconds(idleTime);
 
-            // ===== ATTACK =====
+            anim.SetBool("isIdle", false);
+
+            // ================= 3. ATTACK =================
             yield return StartCoroutine(Attack());
 
-            // ===== IDLE SAU ATTACK =====
-            anim.SetBool("isMoving", false);
-
+            // ================= 4. IDLE SAU ATTACK =================
+            anim.SetBool("isIdle", true);
             yield return new WaitForSeconds(idleTime);
+            anim.SetBool("isIdle", false);
 
-            // ===== FLIP =====
+            // ================= 5. FLIP =================
             Flip();
         }
     }
@@ -85,16 +91,18 @@ public class EnemyAI : MonoBehaviour
         isAttacking = true;
         isMoving = false;
 
+        // đảm bảo đứng yên hoàn toàn
         anim.SetBool("isMoving", false);
 
         anim.SetTrigger("isAttack");
 
+        // chờ animation phun lửa (FireEvent sẽ bắn)
         yield return new WaitForSeconds(1f);
 
         isAttacking = false;
     }
 
-    // ================= FIRE EVENT =================
+    // ================= ANIMATION EVENT =================
     public void FireEvent()
     {
         if (firePrefab == null || firePoint == null) return;
@@ -112,7 +120,6 @@ public class EnemyAI : MonoBehaviour
 
         Vector3 scale = transform.localScale;
         scale.x = Mathf.Abs(scale.x) * (isFacingRight ? 1 : -1);
-
         transform.localScale = scale;
     }
 }
